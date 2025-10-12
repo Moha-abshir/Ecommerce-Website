@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="chatbot.css">
+     <title>Chatbot</title>
+</head>
+<body>
+     <div class="container"></div>
+
+     <script src="https://unpkg.com/supersimpledev/react.js"></script>
+     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+     <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+     <script type="text/babel">
+
+          // COMPONENT: ChatInput
+          // What: A React component for the message input area.
+          // Why: Components let you split your UI into reusable pieces.
+          // How: Define a function that returns JSX (HTML-like code).
+          // When: Use components whenever you want to reuse UI or organize your code.
+          function ChatInput({chatMessages, setChatMessages}) {
+
+               const [inputText, setInputText]=React.useState("");
+               //Here we use state to store the latest text. And since there will be no array, there will be no reason for duplication
+               
+               function saveInputText(e){
+                    setInputText(e.target.value);//The updater function here is used to update the the inputText
+               };
+
+               async function sendMessage(){
+                    setInputText("");
+
+                    if(inputText==""){
+                         return;
+                         alert('Input a message')
+                    }
+
+                    const newMessages =[
+                         ...chatMessages,
+                         {
+                            message:inputText,
+                            sender:"user",
+                            id:crypto.randomUUID()
+
+                         }
+                    ];
+                    setChatMessages([                        
+                          ...newMessages,
+                         {
+                              message:'Loading...',
+                              sender:"robot",
+                              id:crypto.randomUUID()
+
+                         }
+                    ])
+
+                    const response = await Chatbot.getResponseAsync(inputText)
+                    setChatMessages([                        
+                          ...newMessages,
+                         {
+                              message:response,
+                              sender:"robot",
+                              id:crypto.randomUUID()
+
+                         }
+                    ])
+               };
+              // JSX: Looks like HTML, but lets you write JavaScript inside {}.
+              // Why use Fragments (<></>)? To group multiple elements without adding extra <div>s to the HTML.
+              // When to use Fragments: When you want to return more than one element from a component.
+              return (
+                  <div className="chat-input-container">
+                      <input type="text" placeholder="Send a message to chatbot" size="30" onChange={saveInputText} value={inputText} className="chat-input"/>
+                      <button onClick={sendMessage} className="send-btn">Send</button>
+                  </div>
+              );
+          }
+
+          // COMPONENT: ChatMessage
+          // What: Shows a single chat message with the sender's image.
+          // Why: Makes it easy to display messages from different senders in a consistent way.
+          // How: Uses "props" (short for properties) to get data from the parent component.
+          // When: Use props to pass data into a component so it can display different content.
+          function ChatMessage({ message, sender }) {
+              // DESTRUCTURING: { message, sender } pulls these values from the props object.
+              // Why: Makes code shorter and easier to read.
+              // When: Use destructuring when you want to access specific properties from an object.
+
+              // CONDITIONAL RENDERING: {sender === "robot" && ...}
+              // What: Only shows the robot image if the sender is "robot".
+              // Why: Lets you show or hide elements based on data.
+              // When: Use this pattern to display different UI for different data.
+              return (
+                  <div className={sender==="user"?"chat-message-user":"chat-message-robot"}>
+                      {sender === "robot" && <img src="robot.png" width="50px" />}
+                    <div className="chat-message-text">{message}</div>
+                    {sender === "user" && <img src="user.png" width="50px" />}
+                  </div>
+              );
+          }
+
+          // COMPONENT: ChatMessages
+          // What: Manages and displays the list of chat messages.
+          // Why: State lets React remember data and update the UI when it changes.
+          // How: useState returns an array: [currentValue, setValueFunction]
+          // When: Use state when your component needs to "remember" information or update the UI when data changes.
+          function ChatMessages({chatMessages}) {
+              // STATE: useState creates state for the list of messages so that whatever changes we are going to make is also going to update the html page.
+              // Why: So React can update the UI when messages change.
+              // How: array[0] is the current messages, array[1] is the function to update them.
+              // TIP: It's common to use destructuring for state: const [chatMessages, setChatMessages] = React.useState([...])
+/*               const [chatMessages, setChatMessages] = React.useState([
+                  { message: "Hello chatbot", sender: "user", id: "id1" },
+                  { message: "Hello! How can I help you", sender: "robot", id: "id2" },
+                  { message: "Can you get me today's date?", sender: "user", id: "id3" },
+                  { message: "Today is September 27", sender: "robot", id: "id4" }
+              ]); */
+              //Instead of saving the state inside a variable, we can use array destructuring
+              //i.e: we use const [chatMessages, setChatMessages] = React.useState([...]) instead of const chatMessages = array[0] etc
+              //const chatMessages = array[0]; // current state (the messages) i.e the most current chat messages.
+              //const setChatMessages = array[1]; // function to update state(data) i.e UPDATER FUNCTION
+
+               //It is not recommended to update the data directly because react will not update the html.
+               // So the best case scenario is to use state i.e the second array which is a function.
+
+              // RENDERING A LIST: chatMessages.map(...)
+              // What: Loops through each message and renders a ChatMessage component.
+              // Why: Lets you display a dynamic list of items.
+              // When: Use .map() to render lists in React.
+              // KEY PROP: Always add a unique "key" prop when rendering lists to help React track items.
+              const chatMessagesRef=React.useRef(null);
+              React.useEffect(()=>{ //The function inside useEffect will run once the component is created and everytime the component is updated
+                    const containerElem=chatMessagesRef.current;
+                    if(containerElem){
+                         containerElem.scrollTop = containerElem.scrollHeight;
+                    }
+              }, [chatMessages])//The array is called DEPENDENCY ARRAY. It controls when useEffect runs. For best practice, just give useEffect the dependency array to avoid running too often
+                                //We place the chatMesages inside the dependency array so that whenever it is created and later on updated, the function will run.
+              return (
+                  <div className="chat-messages-container" ref={chatMessagesRef}>
+                      {chatMessages.map((item) => (
+                          <ChatMessage
+                              message={item.message}
+                              sender={item.sender}
+                              key={item.id}
+                          />
+                      ))}
+                  </div>
+               );
+          }
+
+          // COMPONENT: App
+          // What: The main component that combines everything.
+          // Why: Acts as the root of your app.
+          // How: Returns the main layout using other components.
+          // When: Always have a top-level App component in React projects.
+        function App() {
+            //Now we lifted the state up to this main components <App/> so that it can be used by the <ChatInput/> and <ChatMessages/> components
+            const [chatMessages, setChatMessages] = React.useState([
+                { message: "Hello chatbot", sender: "user", id: "id1" },
+                { message: "Hello! How can I help you", sender: "robot", id: "id2" },
+                { message: "Can you get me today's date?", sender: "user", id: "id3" },
+                { message: "Today is September 27", sender: "robot", id: "id4" }
+            ]);
+            return (
+                <div className="app-container">
+                    <ChatMessages
+                        chatMessages={chatMessages}
+                    />
+                    <ChatInput
+                        chatMessages={chatMessages}
+                        setChatMessages={setChatMessages}
+                    />
+                </div>
+            );
+          }
+
+          // RENDERING THE APP
+          // What: Tells React to display the App component inside the .container div.
+          // Why: This is how you connect your React code to the HTML page.
+          // How: ReactDOM.createRoot(...).render(...)
+          // When: Always render your main App component at the root of your project.
+          const container = document.querySelector('.container');
+          ReactDOM.createRoot(container).render(<App/>);
+     </script>
+</body>
+</html>

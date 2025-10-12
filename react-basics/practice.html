@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>practice</title>
+</head>
+<body>
+     <div class="container"></div>
+     <script src="https://unpkg.com/supersimpledev/react.js"></script>
+     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+     <script type="text/babel">
+
+          function TodoApp(){
+               const[tasks, setTasks] = React.useState([]);
+               const[input, setInput] =React.useState("");
+
+               function addTask(){
+                    if(input.trim() === ""){
+                         return;
+                    }
+                    setTasks([...tasks, input]);
+                    setInput("")
+               }
+               function deleteTask(idx) {
+                    setTasks(tasks.filter((_, i) => i !== idx));
+               }
+               return(
+                    <>
+                         <div>
+                              <input type="text" id="task" value={input} onChange={(e)=>{setInput(e.target.value)}}/>
+                              <button onClick={addTask}>Add</button>
+                         </div>
+                         <ul>{
+                              tasks.map((item, idx)=>{
+                                   return(
+                                        <li key={idx}>
+                                             {item}
+                                             <button onClick={() => deleteTask(idx)}>Delete</button>
+                                        </li>
+                                   )
+                              })
+                         }</ul>
+                    </>
+               )
+          }
+
+          function App(){
+               return(
+                    <TodoApp/>
+               )
+          }
+
+          const container = document.querySelector('.container');
+          ReactDOM.createRoot(container).render(<App/>)
+     </script>
+</body>
+</html>

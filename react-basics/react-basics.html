@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>React-Basics</title>
+</head>
+<body>
+     <div class="js-container"></div>
+
+     <script src="https://unpkg.com/supersimpledev/react.js"></script>
+     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+     <!-- react.js and react-dom.js are the ones used to build websites while react.js and reactNative.js are used to build mobile apps -->
+
+     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+     <script type="text/babel">
+          const button = <button>Hello</button>;
+          /*   The above code is the same as saying const button = document.createElement('button'); button.textContent = 'hello';
+               This is because react uses jsx, which means that you can write HTML inside javascript.
+               The problem now is that the browser doesnt understand jsx, it only understands javascript alone.
+
+               =>In order to use jsx, we need to translate it to javascript first.
+               First, we load an external library called babel which translate the jsx into javascript
+               Second, we have to give the script element an attribite; type="text/type";
+
+               That attribute tells babel to translate the jsx into javascript.
+          */
+          const container = document.querySelector('.js-container');
+         /*    ReactDom.createRoot() is used set up react inside any element that is going to be placed inside the paranthesis
+               .render is used to display anything that is inside its parenthesis on the page.
+               =>You cannot give .render multiple elements for it do display on the page
+               =>You cannot assign multiple elements within the same variable.
+
+               We can easily create the HTML elements we want and then giving it to react. This is way simpler than using the DOM feature in vanilla js
+               If you want multipe elements to be displayed on the page, we can use do it this way:
+         */
+          const div=(
+               <div>
+                    <button>Second Button</button>
+                    <p>This is a paragraph</p> /* //We can also add values using {}. This is the same as using ${} in vanilla js*/
+               </div>
+               )
+          ReactDOM.createRoot(container).render(div);
+    </script>
+</body>
+</html>
