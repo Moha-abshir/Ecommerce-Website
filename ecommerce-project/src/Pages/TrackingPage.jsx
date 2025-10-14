@@ -3,6 +3,7 @@ import "./TrackingPage.css";
 export function TrackingPage() {
   return (
     <>
+      <title>Track Package</title>
       <div class="header">
         <div class="left-section">
           <a href="/" class="header-link">
