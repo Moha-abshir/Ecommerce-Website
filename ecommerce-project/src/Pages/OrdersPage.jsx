@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Header } from "../Shared-Components/header";
 import './OrdersPage.css'
 
@@ -51,7 +52,7 @@ export function OrdersPage() {
               </div>
 
               <div className="product-actions">
-                <Link href="/tracking">
+                <Link to="/tracking">
                   <button className="track-package-button button-secondary">
                     Track package
                   </button>
@@ -78,7 +79,7 @@ export function OrdersPage() {
               </div>
 
               <div className="product-actions">
-                <Link href="/tracking">
+                <Link to="/tracking">
                   <button className="track-package-button button-secondary">
                     Track package
                   </button>
@@ -125,7 +126,7 @@ export function OrdersPage() {
               </div>
 
               <div className="product-actions">
-                <Link href="/tracking">
+                <Link to="/tracking">
                   <button className="track-package-button button-secondary">
                     Track package
                   </button>
