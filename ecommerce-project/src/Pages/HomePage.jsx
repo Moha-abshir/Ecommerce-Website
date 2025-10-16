@@ -1,11 +1,11 @@
+import axios from 'axios';
 import { Header } from '../Shared-Components/header';
 import { products } from '../starting-code/data/products';
 import './HomePage.css';
 
 export function HomePage() {
-  fetch('http://localhost:3000/api/products')
-  .then(res => res.json())
-  .then(data=>console.log(data))
+  axios.get('http://localhost:3000/api/products')
+  .then(res => console.log(res.data))
 
   return (
     <>
