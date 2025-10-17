@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./checkout-header.css";
 import "./CheckOutPage.css";
 
-export function CheckOutPage() {
+export function CheckOutPage({cart}) {
   return (
     <>
       <title>Checkout</title>
