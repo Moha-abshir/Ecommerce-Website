@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { formatMoney } from "../utils/money";
 import "./checkout-header.css";
 import "./CheckOutPage.css";
 
 export function CheckOutPage({cart}) {
+  const [delivaryOptions, setDelivaryOptions]= useState([])
+  useEffect(()=>{
+    axios.get('/api/delivery-options')
+    .then(res => setDelivaryOptions(res.data))
+  } ,[])
+
   return (
     <>
       <title>Checkout</title>
@@ -120,7 +128,7 @@ export function CheckOutPage({cart}) {
                 </div>
               )
             })}
-            
+
           </div>
 
           <div className="payment-summary">
