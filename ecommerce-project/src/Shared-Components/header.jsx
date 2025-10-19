@@ -3,9 +3,12 @@ import { NavLink } from 'react-router-dom';
 
 export function Header({cart}){
 	let totalQuantity = 0;
-	cart.forEach(cartItem => {
-		totalQuantity += cartItem.quantity
-	});
+
+	if(cart){
+		cart.forEach(cartItem => {
+			totalQuantity += cartItem.quantity
+		});
+	}
 
     return(
         <>
