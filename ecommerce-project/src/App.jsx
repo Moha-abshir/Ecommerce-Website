@@ -11,9 +11,11 @@ import { NotFoundPage } from './Pages/NotFoundPage';
 function App() {
     const [cart, setCart] = useState([]);
     useEffect(()=>{
-        axios.get('/api/cart-items?expand=product')
-        .then(res=> setCart(res.data))
+        async function fetchData(){
 
+        const res = await axios.get('/api/cart-items?expand=product')
+        setCart(res.data)
+        }
     }, [])
 
     return (

@@ -10,9 +10,12 @@ export function OrdersPage({cart}) {
   const [orders, setOrders] = useState([]);
 
   useEffect(()=>{
+    async function fetchData(){
 
-    axios.get('/api/orders?expand=products')
-    .then((res)=>{setOrders(res.data)})
+      const res = await axios.get('/api/orders?expand=products')
+      setOrders(res.data);
+    }
+    fetchData();
   },[])
   return (
     <>

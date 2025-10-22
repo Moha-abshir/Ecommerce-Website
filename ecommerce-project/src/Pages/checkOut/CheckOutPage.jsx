@@ -11,11 +11,20 @@ export function CheckOutPage({cart}) {
   const [paymentSummery, setPaymentSummery] = useState(null)
 
   useEffect(()=>{
-    axios.get('/api/delivery-options?expand=estimatedDeliveryTime')
-    .then(res => setDeliveryOptions(res.data));
+    async function fetchData(){
+      try{
+        const res = await axios.get('/api/delivery-options?expand=estimatedDeliveryTime')
+        setDeliveryOptions(res.data);
 
-    axios.get('/api/payment-summary')
-    .then((res)=>{setPaymentSummery(res.data)})
+        const res2 = await axios.get('/api/payment-summary')
+        setPaymentSummery(res2.data)
+      }
+      catch(error){
+        console.error("Error fetching data: ", error)
+      }
+      
+    }
+    fetchData();
   } ,[]);
   return (
     <>
