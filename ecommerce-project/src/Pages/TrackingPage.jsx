@@ -1,56 +1,44 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Header } from "../Shared-Components/header";
+import dayjs from "dayjs";
 import "./TrackingPage.css";
 
-export function TrackingPage() {
+export function TrackingPage({orders}) {
+  useEffect(()=>{
+    document.title = `Track - ${orderedProduct.product.name}`
+  });
+
+  const {orderId, productId}= useParams();
+  const order = orders.find(o => o.id === orderId);
+  const orderedProduct = order ? order.products.find(p => p.productId === productId): null;
+  if(!order || !orderedProduct){
+    return <div>Loading the Product</div>
+  }
+
   return (
     <>
-      <title>Track Package</title>
-      <div className="header">
-        <div className="left-section">
-          <Link to="/" className="header-link">
-            <img className="logo" src="images/logo-white.png" />
-            <img className="mobile-logo" src="images/mobile-logo-white.png" />
-          </Link>
-        </div>
 
-        <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Search" />
-
-          <button className="search-button">
-            <img className="search-icon" src="images/icons/search-icon.png" />
-          </button>
-        </div>
-
-        <div className="right-section">
-          <Link className="orders-link header-link" to="/orders">
-            <span className="orders-text">Orders</span>
-          </Link>
-
-          <Link className="cart-link header-link" to="/checkout">
-            <img className="cart-icon" src="images/icons/cart-icon.png" />
-            <div className="cart-quantity">3</div>
-            <div className="cart-text">Cart</div>
-          </Link>
-        </div>
-      </div>
+      <Header/>
 
       <div className="tracking-page">
+
         <div className="order-tracking">
           <Link className="back-to-orders-link link-primary" to="/orders">
             View all orders
           </Link>
 
-          <div className="delivery-date">Arriving on Monday, June 13</div>
+          <div className="delivery-date">Arriving on {dayjs(orderedProduct.estimatedDeliveryTimeMs).format('dddd, MMMM D')}</div>
 
           <div className="product-info">
-            Black and Gray Athletic Cotton Socks - 6 Pairs
+            {orderedProduct.product.name}
           </div>
 
-          <div className="product-info">Quantity: 1</div>
+          <div className="product-info">Quantity: {orderedProduct.quantity}</div>
 
           <img
             className="product-image"
-            src="images/products/athletic-cotton-socks-6-pairs.jpg"
+            src={orderedProduct.product.image}
           />
 
           <div className="progress-labels-container">
