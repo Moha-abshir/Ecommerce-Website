@@ -10,14 +10,13 @@ import { NotFoundPage } from './Pages/NotFoundPage';
 
 function App() {
     const [cart, setCart] = useState([]);
-    useEffect(()=>{
-        async function fetchData(){
 
-        const res = await axios.get('/api/cart-items?expand=product')
-        setCart(res.data)
-        }
-        fetchData();
-    }, [])
+    async function loadCart(){
+
+      const res = await axios.get('/api/cart-items?expand=product')
+      setCart(res.data)
+    }
+    useEffect(()=>{loadCart()}, [])
 
       const [orders, setOrders] = useState([]);
       useEffect(()=>{
@@ -31,7 +30,7 @@ function App() {
 
     return (
         <Routes>
-            <Route  index element={<HomePage cart={cart}/>}/>
+            <Route  index element={<HomePage cart={cart} loadCart={loadCart}/>}/>
             <Route path='checkout' element={<CheckOutPage cart={cart}/>}/>
             <Route path='orders' element={<OrdersPage cart={cart} orders={orders}/>}/>
             <Route path='tracking/:orderId/:productId' element={<TrackingPage orders={orders}/>}/>

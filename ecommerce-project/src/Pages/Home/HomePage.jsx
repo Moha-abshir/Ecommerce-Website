@@ -4,7 +4,7 @@ import { Header } from '../../Shared-Components/header';
 import { ProductGrid } from './ProductGrid';
 import './HomePage.css';
 
-export function HomePage({cart}) {
+export function HomePage({cart, loadCart}) {
   const [products, setProducts] = useState([]);
 
 
@@ -23,7 +23,7 @@ export function HomePage({cart}) {
       <Header cart={cart}/>
 
       <div className="home-page">
-        <ProductGrid products={products}/>
+        <ProductGrid products={products} loadCart={loadCart}/>
       </div>
     </>
   );
