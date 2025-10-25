@@ -1,18 +1,24 @@
-import {Fragment} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import { Link } from "react-router-dom";
 import { Header } from "../../Shared-Components/header";
 import dayjs from 'dayjs';
 import { formatMoney } from '../../utils/money';
 import './OrdersPage.css'
+import axios from 'axios';
 
-export function OrdersPage({cart, orders}) {
+export function OrdersPage({cart}) {
+  const [orders, setOrders] = useState([]);
+  useEffect(()=>{
+    axios.get('/api/orders?expand=products')
+    .then(res => setOrders(res.data))
+  })
 
   return (
     <>
     <title>Orders</title>
 
 	  <Header cart={cart}/>
-      <div className="orders-page">
+      <div className="orders-page" key={orders.orderId}>
         <div className="page-title">Your Orders</div>
 
         <div className="orders-grid">
