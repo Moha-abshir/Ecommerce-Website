@@ -135,6 +135,10 @@
   margin-bottom: 8px;
 }
 
+.orders-page .product-quantity .input-quantity{
+  display: none;
+}
+
 .orders-page .buy-again-button {
   font-size: 14px;
   width: 140px;
