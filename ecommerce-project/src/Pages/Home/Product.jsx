@@ -35,7 +35,7 @@ export function Product({product, loadCart}){
     
 
     return(
-        <div className="product-container">
+        <div className="product-container" data-testId='product-container'>
             <div className="product-image-container">
                 <img
                 className="product-image"
