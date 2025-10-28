@@ -51,7 +51,7 @@ export function Product({product, loadCart}){
             <div className="product-rating-container">
                 <img
                 className="product-rating-stars"
-                data-testId='rating-image'
+                data-testid='rating-image'
                 src={`images/ratings/rating-${product.rating.stars * 10}.png`}
                 />
                 <div className="product-rating-count link-primary">
@@ -84,6 +84,7 @@ export function Product({product, loadCart}){
             </div>
 
             <button className="add-to-cart-button button-primary" 
+                data-testId='addToCartButton'
                 onClick={handleTwoFuction}>
                 Add to Cart
             </button>
