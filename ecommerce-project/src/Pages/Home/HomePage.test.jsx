@@ -1,7 +1,6 @@
 import{ it, expect, describe, vi, beforeEach } from 'vitest';
 import { render, screen, within } from '@testing-library/react';//The screen object gives us methods to 'look at' the virtual web page created by render
 import { MemoryRouter } from 'react-router-dom'; //Specifically used for TESTING
-import userEvent from '@testing-library/user-event';//It is used to simulate how a real user interacts with your application in a browser
 import axios from 'axios';
 import { HomePage } from './HomePage';
 
