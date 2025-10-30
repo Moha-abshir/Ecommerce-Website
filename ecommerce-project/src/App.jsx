@@ -18,15 +18,16 @@ function App() {
     }
     useEffect(()=>{loadCart()}, [])
 
-      const [orders, setOrders] = useState([]);
-      useEffect(()=>{
+    const [orders, setOrders] = useState([]);
+    useEffect(()=>{
         async function fetchData(){
-    
-          const res = await axios.get('/api/orders?expand=products')
-          setOrders(res.data);
+
+            const res = await axios.get('/api/orders?expand=products')
+            setOrders(res.data);
         }
+
         fetchData();
-      },[])
+    },[])
 
     return (
         <Routes>

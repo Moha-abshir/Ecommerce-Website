@@ -1,8 +1,8 @@
-import { useEffect, useState} from 'react'
+import { useEffect, useState} from 'react';
 import { Header } from "../../Shared-Components/header";
 import dayjs from 'dayjs';
 import { formatMoney } from '../../utils/money';
-import './OrdersPage.css'
+import './OrdersPage.css';
 import axios from 'axios';
 import { OrderProducts } from './OrderProducts';
 
