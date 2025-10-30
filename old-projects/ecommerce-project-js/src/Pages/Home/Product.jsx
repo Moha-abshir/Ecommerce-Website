@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import axios from 'axios'
-import { formatMoney } from "../../utils/money";
+import { formatMoney } from '../../utils/money';
 
 export function Product({product, loadCart}){
     const [quantity, setQuantity] = useState(1);
