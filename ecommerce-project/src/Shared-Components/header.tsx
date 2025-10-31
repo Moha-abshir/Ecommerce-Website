@@ -1,7 +1,15 @@
 import './header.css';
 import { NavLink } from 'react-router-dom';
 
-export function Header({cart}){
+type HeaderProps = {
+	cart: {
+		productId: string,
+		quantity: number,
+		deliveryOption: string;
+	}[];
+}
+
+export function Header({cart}: HeaderProps){
 	let totalQuantity = 0;
 
 	if(cart){
